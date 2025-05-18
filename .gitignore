@@ -3,6 +3,13 @@
 bin/
 obj/
 
+## Solution files
+*.sln
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
 ## User-specific files
 *.rsuser
 *.suo
