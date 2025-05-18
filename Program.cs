@@ -4,24 +4,14 @@ using System.Diagnostics.Contracts;
 using System.Runtime.CompilerServices;
 using System.Security.Cryptography.X509Certificates;
 
-class Pet
+class Pet(int id, string species, int age, string condition, string personality, string nickname)
 {
-    public int Id { get; set; }
-    public string Species { get; set; }
-    public int Age { get; set; }
-    public string Condition { get; set; }
-    public string Personality { get; set; }
-    public string Nickname { get; set; }
-
-    public Pet(int id, string species, int age, string condition, string personality, string nickname)
-    {
-        Id = id;
-        Species = species;
-        Age = age;
-        Condition = condition;
-        Personality = personality;
-        Nickname = nickname ?? "";
-    }
+    public int Id { get; set; } = id;
+    public string Species { get; set; } = species;
+    public int Age { get; set; } = age;
+    public string Condition { get; set; } = condition;
+    public string Personality { get; set; } = personality;
+    public string Nickname { get; set; } = nickname ?? "";
 
     public static void PrintAttributes()
     {
