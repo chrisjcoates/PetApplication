@@ -142,12 +142,12 @@ class Program
     {
         Console.Clear();
 
-        int id = 0;
+        int id = 1;
         foreach (Pet pet in petList)
         {
             id++;
         }
-        string type = "";
+        string species = "";
         int age = 0;
         string condition = "";
         string personality = "";
@@ -160,18 +160,16 @@ class Program
             bool typeIsValid = false;
             do
             {
-                Console.Write("Enter a pet Type: ");
-                string? petType = Console.ReadLine();
+                Console.Write("Enter a pet species: ");
+                string? petSpecies = Console.ReadLine();
 
-                Console.WriteLine(petType);
-
-                if (petType == null || petType == "")
+                if (petSpecies == null || petSpecies == "")
                 {
                     continue;
                 }
                 else
                 {
-                    type = petType;
+                    species = petSpecies;
                     typeIsValid = true;
                 }
 
@@ -253,7 +251,7 @@ class Program
 
         } while (creatingNew);
 
-        petList.Add(new Pet(id, type, age, condition, personality, nickname));
+        petList.Add(new Pet(id, species, age, condition, personality, nickname));
 
         Console.Clear();
 
@@ -292,7 +290,7 @@ class Program
             if (pet.Id == petId)
             {
                 idFound = true;
-                string type = "";
+                string species = "";
                 int age = 0;
                 string condition = "";
                 string personality = "";
@@ -305,7 +303,7 @@ class Program
                     bool typeIsValid = false;
                     do
                     {
-                        Console.Write("Enter a pet Type: ");
+                        Console.Write("Enter a pet species: ");
                         string? petType = Console.ReadLine();
 
                         Console.WriteLine(petType);
@@ -316,7 +314,7 @@ class Program
                         }
                         else
                         {
-                            type = petType;
+                            species = petType;
                             typeIsValid = true;
                         }
 
@@ -397,6 +395,7 @@ class Program
                     editing = false;
                 } while (editing);
 
+                pet.Species = species;
                 pet.Age = age;
                 pet.Condition = condition;
                 pet.Personality = personality;
