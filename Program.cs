@@ -4,14 +4,24 @@ using System.Diagnostics.Contracts;
 using System.Runtime.CompilerServices;
 using System.Security.Cryptography.X509Certificates;
 
-class Pet(int id, string species, int age, string condition, string personality, string nickname)
+class Pet
 {
-    public int Id { get; set; } = id;
-    public string Species { get; set; } = species;
-    public int Age { get; set; } = age;
-    public string Condition { get; set; } = condition;
-    public string Personality { get; set; } = personality;
-    public string Nickname { get; set; } = nickname ?? "";
+    public int Id { get; set; }
+    public string Species { get; set; }
+    public int Age { get; set; }
+    public string Condition { get; set; }
+    public string Personality { get; set; }
+    public string Nickname { get; set; }
+
+    public Pet(int id, string species, int age, string condition, string personality, string nickname)
+    {
+        Id = id;
+        Species = species;
+        Age = age;
+        Condition = condition;
+        Personality = personality;
+        Nickname = nickname ?? "";
+    }
 
     public static void PrintAttributes()
     {
@@ -53,7 +63,7 @@ class Program
         {
             new(1, "Cat", 3, "Healthy", "Playfull", "Whiskers"),
             new(2, "Dog", 5, "Injured", "Loyal", "Buddy"),
-            new(3, "Rabbit", 2, "Healthy", "Timid", "Floppy"),
+            new(3, "Dog", 2, "Healthy", "Timid", "Floppy"),
             new(4, "Parrot", 4, "Recovered", "Talkative", "Chirpy"),
             new(5, "Hamster", 1, "Healthy", "Curious", "")
         };
@@ -61,7 +71,8 @@ class Program
         string[] menuItems = [
             "List all of our current pet information.",
             "Create new pet record.",
-            "Edit an animal's record.",
+            "Edit a pet's record.",
+            "Search for pet by 'Type' and a specified characteristic",
             "Enter 'q' to quit."
             ];
 
@@ -72,10 +83,11 @@ class Program
         do
         {
             Console.WriteLine("Welcome to the Pet Appilcation!\n");
-            for (int i = 0; i < menuItems.Length; i++)
+            for (int i = 0; i < menuItems.Length - 1; i++)
             {
                 Console.WriteLine($"{i + 1} - {menuItems[i]}");
             }
+            Console.WriteLine(menuItems[^1]);
             Console.Write($"\nPlease select a number from 1 - {menuItems.Length}: ");
             string? userInput = Console.ReadLine();
 
@@ -103,6 +115,9 @@ class Program
                     case 3:
                         EditPetRecord(ourAnimals);
                         break;
+                    case 4:
+                        SearchPetCharacteristic(ourAnimals);
+                        break;
                 }
             }
             else
@@ -112,8 +127,6 @@ class Program
 
 
         } while (runApp);
-
-
     }
 
     static void ListAllPets(List<Pet> petList)
@@ -247,8 +260,6 @@ class Program
 
         Console.WriteLine("\nNew pet added to database.\n");
     }
-
-
     static void EditPetRecord(List<Pet> petList)
     {
         Console.Clear();
@@ -404,5 +415,85 @@ class Program
             Console.WriteLine("\nPet record sucessfuly edited.\n");
         }
 
+    }
+    static void SearchPetCharacteristic(List<Pet> petList)
+    {
+        Console.Clear();
+
+        bool searchIsValid = false;
+        do
+        {
+            Console.Write("Enter a species to search ('Dog'/'Cat'): ");
+            string? speciesInput = Console.ReadLine();
+
+            if (speciesInput == null) continue;
+
+            bool speciesFound = false;
+            foreach (Pet pet in petList)
+            {
+                if (pet.Species.ToLower() == speciesInput.ToLower())
+                {
+                    Console.WriteLine($"\nOne or more pets found for species '{speciesInput}'\n");
+                    speciesFound = true;
+                    break;
+                }
+            }
+            if (speciesFound)
+            {
+                bool characteristicValid = false;
+                do
+                {
+                    Console.Write("Enter a characteristic to search ('Playful'/'Curious'): ");
+
+                    string? characteristic = Console.ReadLine();
+
+                    if (characteristic == null) continue;
+
+                    List<Pet> petsFound = new List<Pet> { };
+                    foreach (Pet pet in petList)
+                    {
+                        if (pet.Personality.ToLower() == characteristic.ToLower())
+                        {
+                            petsFound.Add(pet);
+                        }
+                    }
+
+                    int count = 0;
+                    foreach (Pet pet in petsFound)
+                    {
+                        count++;
+                    }
+
+                    if (count > 0)
+                    {
+                        Pet.PrintAttributes();
+                        Console.WriteLine("\n");
+                        foreach (Pet pet in petsFound)
+                        {
+                            pet.ListPet();
+                        }
+                        Console.WriteLine();
+                        characteristicValid = true; ;
+                        searchIsValid = true;
+                    }
+                    else
+                    {
+                        Console.WriteLine($"No pets with characteristic {characteristic} found.");
+                        break;
+                    }
+
+
+                } while (!characteristicValid);
+
+
+            }
+            else
+            {
+                Console.WriteLine($"\nNo pets found with species '{speciesInput}'\n");
+                break;
+            }
+
+
+        } while (!searchIsValid);
     }
 }
