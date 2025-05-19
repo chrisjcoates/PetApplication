@@ -9,4 +9,4 @@ This is a simple C# console application that allows users to manage a list of pe
 - List all pets
 - Create new pet records
 - Edit an existing pet's personality, age, condition, and nickname
-
+- Search for pets based on species and personality characteristic
