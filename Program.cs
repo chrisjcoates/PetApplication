@@ -416,6 +416,10 @@ class Program
         }
 
     }
+
+    //TODO update method to be able to search for characteristic in a sentance
+    //TODO update so multiple characteristics can be added to the search
+    //TODO add donation amount to pets, handle default amount
     static void SearchPetCharacteristic(List<Pet> petList)
     {
         Console.Clear();
